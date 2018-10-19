@@ -23,10 +23,7 @@ module WebAuthn
       end
 
       def credential
-        @credential ||=
-          if id
-            Credential.new(id: id, public_key: public_key.to_str)
-          end
+        @credential ||= Credential.new(id: id, public_key: public_key.to_str) if id
       end
 
       private
@@ -34,9 +31,7 @@ module WebAuthn
       attr_reader :data
 
       def id
-        if valid?
-          data_at(id_position, id_length)
-        end
+        data_at(id_position, id_length) if valid?
       end
 
       def public_key
@@ -60,7 +55,7 @@ module WebAuthn
       end
 
       def public_key_length
-        data.size - (AAGUID_LENGTH + ID_LENGTH_LENGTH + id_length)
+        data.size - ((AAGUID_LENGTH + ID_LENGTH_LENGTH) + id_length))
       end
 
       def data_at(position, length = nil)
